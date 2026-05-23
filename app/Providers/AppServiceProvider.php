@@ -26,8 +26,8 @@ class AppServiceProvider extends ServiceProvider
             $view->with('tahunAktifGlobal', $tahunAktif);
         });
 
-        // if (app()->environment('local')) {
-        //     URL::forceScheme('https');
-        // }
+        if (app()->environment('local')) {
+            URL::forceScheme('https');
+        }
     }
 }
