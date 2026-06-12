@@ -99,5 +99,6 @@
 <!-- Global Toast Notification -->
 <x-toast-notification />
 
+@stack('scripts')
 </body>
 </html>

@@ -44,7 +44,7 @@
                         <p class="text-gray-500 text-xs mt-2 px-4">QR yang Anda scan sudah tidak berlaku. Silakan scan ulang QR terbaru di layar Admin.</p>
                         <button onclick="window.location.reload()" class="mt-6 text-sm font-bold text-blue-600 hover:underline">Coba Lagi</button>
                     </div>
-                @elseif($sudahPresensi)
+                @elseif($sudahAbsensi)
                     <div class="text-center py-4">
                         <div class="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">✨</div>
                         <h2 class="text-xl font-bold text-gray-800">Sudah Absen</h2>

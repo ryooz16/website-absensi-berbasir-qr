@@ -44,6 +44,16 @@ class QrAbsensiController extends Controller
         ]));
     }
 
+    public function getStats()
+    {
+        $today = Carbon::today()->toDateString();
+        $sudahAbsensi = AbsensiGuru::where('tanggal', $today)->count();
+
+        return response()->json([
+            'sudahAbsensi' => $sudahAbsensi,
+        ]);
+    }
+
     public function index()
     {
         $today = Carbon::today()->toDateString();
@@ -189,14 +199,24 @@ class QrAbsensiController extends Controller
         }
 
         $currentToken = $this->generateToken($today, $interval, 0);
-        $prevToken = $this->generateToken($today, $interval, -1);
-
-        $valid = hash_equals($currentToken, $token) || hash_equals($prevToken, $token);
+        
+        $valid = hash_equals($currentToken, $token);
+        
+        // Grace period hanya berlaku jika interval <= 3 menit
+        if ($interval <= 3) {
+            $prevToken = $this->generateToken($today, $interval, -1);
+            if (hash_equals($prevToken, $token)) {
+                $valid = true;
+            }
+        }
 
         $user = auth()->user();
         $sudahAbsensi = false;
         if ($valid && $user) {
             $sudahAbsensi = AbsensiGuru::where('guru_id', $user->id)->where('tanggal', $today)->exists();
+            if ($sudahAbsensi) {
+                return redirect()->route('guru.riwayat-absensi')->with('warning', 'Anda sudah mencatat kehadiran hari ini.');
+            }
         }
 
         return view('absensi.scan', compact('valid', 'token', 'sudahAbsensi', 'today'));
@@ -208,15 +228,24 @@ class QrAbsensiController extends Controller
         $interval = (int) Setting::get('qr_interval', 5);
 
         $currentToken = $this->generateToken($today, $interval, 0);
-        $prevToken = $this->generateToken($today, $interval, -1);
+        
+        $isValid = hash_equals($currentToken, $token);
+        
+        // Grace period hanya berlaku jika interval <= 3 menit
+        if ($interval <= 3) {
+            $prevToken = $this->generateToken($today, $interval, -1);
+            if (hash_equals($prevToken, $token)) {
+                $isValid = true;
+            }
+        }
 
-        if (!hash_equals($currentToken, $token) && !hash_equals($prevToken, $token)) {
+        if (!$isValid) {
             return back()->with('error', 'QR Code sudah kadaluarsa.');
         }
 
         $user = auth()->user();
         $sudah = AbsensiGuru::where('guru_id', $user->id)->where('tanggal', $today)->exists();
-        if ($sudah) return back()->with('warning', 'Anda sudah absensi.');
+        if ($sudah) return redirect()->route('guru.riwayat-absensi')->with('warning', 'Anda sudah absensi.');
 
         $jamMasuk = Carbon::now();
         $batasHadir = Setting::get('qr_end_time', '08:00');
@@ -233,7 +262,7 @@ class QrAbsensiController extends Controller
             'status' => $status,
         ]);
 
-        return back()->with('success', "Absensi berhasil dicatat sebagai " . ucfirst($status));
+        return redirect()->route('guru.riwayat-absensi')->with('success', "Absensi berhasil dicatat sebagai " . ucfirst($status));
     }
 
     private function generateTimedQrData($tanggal, $interval, $isActive, $isWithinTime, $startTime, $endTime, $size = 200)

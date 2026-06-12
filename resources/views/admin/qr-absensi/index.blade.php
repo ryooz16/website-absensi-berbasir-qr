@@ -18,7 +18,7 @@
         <div class="flex items-center gap-3">
             <div class="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200/60 flex items-center gap-3 text-sm text-slate-600">
                 <span class="font-bold border-r border-slate-200 pr-3 font-mono"><span id="server-clock">--:--:--</span> WIB</span>
-                <span class="text-slate-400">{{ $today->translatedFormat('d F Y') }}</span>
+                <span class="text-slate-400">{{ $today->locale('id')->translatedFormat('d F Y') }}</span>
             </div>
         </div>
     </div>
@@ -138,11 +138,11 @@
         {{-- KANAN: DAFTAR GURU --}}
         <div class="lg:col-span-2">
             <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
-                <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center">
+                <div class="px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
                     <h2 class="font-bold text-slate-700 text-sm">Daftar Guru Hari Ini</h2>
                     <div class="flex gap-2">
                         <span class="text-[11px] bg-indigo-50 text-indigo-600 px-2.5 py-1 rounded-lg font-bold border border-indigo-100">Total: {{ $totalGuru }}</span>
-                        <span class="text-[11px] bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-lg font-bold border border-emerald-100">Masuk: {{ $sudahAbsensi }}</span>
+                        <span class="text-[11px] bg-emerald-50 text-emerald-600 px-2.5 py-1 rounded-lg font-bold border border-emerald-100">Sudah Absensi: {{ $sudahAbsensi }}</span>
                     </div>
                 </div>
 
@@ -225,7 +225,16 @@
                                     </div>
                                 </div>
                                 @if($guru->status)
-                                    <span class="bg-indigo-50 text-indigo-600 px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border border-indigo-100">{{ $guru->status }}</span>
+                                    @php
+                                        $scMobile = [
+                                            'hadir'=>'bg-emerald-50 text-emerald-700 border-emerald-200',
+                                            'terlambat'=>'bg-amber-50 text-amber-700 border-amber-200',
+                                            'izin'=>'bg-sky-50 text-sky-700 border-sky-200',
+                                            'sakit'=>'bg-orange-50 text-orange-700 border-orange-200',
+                                            'alpha'=>'bg-red-50 text-red-700 border-red-200',
+                                        ];
+                                    @endphp
+                                    <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider border {{ $scMobile[$guru->status] ?? 'bg-indigo-50 text-indigo-600 border-indigo-100' }}">{{ $guru->status }}</span>
                                 @else
                                     <span class="text-slate-300 text-[9px] font-bold uppercase tracking-wider">Belum Absen</span>
                                 @endif

@@ -49,6 +49,7 @@ class LaporanController extends Controller
                 $rekapSiswa[$siswaId] = [
                     'nama' => $item->siswaKelas->siswa->nama ?? 'Siswa Terhapus',
                     'kelas' => $item->kelas->nama_kelas ?? '-',
+                    'kelas_id' => $item->kelas_id,
                     'hadir' => 0,
                     'sakit' => 0,
                     'izin' => 0,
@@ -66,13 +67,26 @@ class LaporanController extends Controller
             return $classComparison;
         });
 
-        // Convert to collection of objects
-        $data = collect($rekapSiswa)->map(function ($item) {
-            return (object) $item;
-        });
+        $waliKelasList = \App\Models\WaliKelas::with('guru')
+            ->where('tahun_ajaran_id', $tahunAjaranId)
+            ->get()
+            ->keyBy('kelas_id');
+
+        $groupedData = collect($rekapSiswa)->groupBy('kelas');
+        $dataToExport = [];
+        foreach ($groupedData as $kelasName => $students) {
+            $kelasIdFromFirstStudent = $students->first()['kelas_id'] ?? null;
+            $wali = $kelasIdFromFirstStudent ? $waliKelasList->get($kelasIdFromFirstStudent) : null;
+            
+            $dataToExport[] = [
+                'kelas' => $kelasName,
+                'wali_kelas' => $wali ? ($wali->guru->name ?? 'Guru Terhapus') : 'Belum Ditentukan',
+                'students' => $students->map(function($item) { return (object)$item; })->all()
+            ];
+        }
 
         $exportData = [
-            'data' => $data,
+            'groupedData' => collect($dataToExport),
             'tanggalAwal' => $tanggalAwal,
             'tanggalAkhir' => $tanggalAkhir,
             'tahunAjaran' => TahunAjaran::find($tahunAjaranId)?->nama_tahun ?? '-',

@@ -73,8 +73,11 @@
         <!-- NOTIFICATIONS -->
 
         @if(session('import_failures'))
-            <div class="bg-amber-50 border border-amber-200 text-amber-700 p-4 rounded-xl mb-6">
-                <p class="font-semibold text-sm">Beberapa data dilewati:</p>
+            <div x-data="{ show: true }" x-show="show" class="bg-amber-50 border border-amber-200 text-amber-700 p-4 rounded-xl mb-6 relative">
+                <button @click="show = false" class="absolute top-4 right-4 text-amber-500 hover:text-amber-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <p class="font-semibold text-sm pr-6">Beberapa data dilewati:</p>
                 <ul class="list-disc ml-5 mt-1 text-xs space-y-0.5">
                     @foreach(session('import_failures') as $failure)
                         <li>{{ $failure }}</li>

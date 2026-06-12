@@ -52,8 +52,11 @@
 
         <!-- NOTIFICATIONS -->
         @if(session('import_failures'))
-            <div class="bg-amber-50 border border-amber-200 text-amber-700 p-4 rounded-xl mb-6">
-                <p class="font-semibold text-sm">Beberapa data dilewati:</p>
+            <div x-data="{ show: true }" x-show="show" class="bg-amber-50 border border-amber-200 text-amber-700 p-4 rounded-xl mb-6 relative">
+                <button @click="show = false" class="absolute top-4 right-4 text-amber-500 hover:text-amber-700 transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+                <p class="font-semibold text-sm pr-6">Beberapa data dilewati:</p>
                 <ul class="list-disc ml-5 mt-1 text-xs space-y-0.5">@foreach(session('import_failures') as $f)<li>{{ $f }}</li>@endforeach</ul>
             </div>
         @endif
@@ -73,7 +76,7 @@
                     <tbody class="divide-y divide-slate-50">
                     @forelse($mapel as $m)
                         <tr class="hover:bg-slate-50/50 transition">
-                            <td class="px-6 py-4 font-semibold text-slate-700">{{ $m->nama_mapel }}</td>
+                            <td class="px-6 py-4 font-semibold text-slate-700 capitalize">{{ $m->nama_mapel }}</td>
                             <td class="px-6 py-4">
                                 <div class="flex justify-center gap-1">
                                     <button @click="openEdit({ id: '{{ $m->id }}', nama_mapel: '{{ addslashes($m->nama_mapel) }}' }, '{{ route('admin.mapel.update', $m->id) }}')"
@@ -99,7 +102,7 @@
             <div class="md:hidden divide-y divide-slate-100">
                 @forelse($mapel as $m)
                     <div class="p-4 hover:bg-slate-50 transition flex items-center justify-between">
-                        <span class="font-bold text-slate-800 text-sm">{{ $m->nama_mapel }}</span>
+                        <span class="font-bold text-slate-800 text-sm capitalize">{{ $m->nama_mapel }}</span>
                         <div class="flex gap-1">
                             <button @click="openEdit({ id: '{{ $m->id }}', nama_mapel: '{{ addslashes($m->nama_mapel) }}' }, '{{ route('admin.mapel.update', $m->id) }}')"
                                class="p-2 text-slate-400 hover:text-indigo-600 transition">

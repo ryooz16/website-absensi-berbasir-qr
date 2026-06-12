@@ -32,7 +32,7 @@ class GuruImport implements ToCollection, WithHeadingRow
             }
 
             User::create([
-                'name' => $name,
+                'name' => ucwords(strtolower(trim($name))),
                 'email' => $email,
                 'password' => Hash::make($password),
                 'role' => 'guru',

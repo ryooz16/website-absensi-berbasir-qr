@@ -22,6 +22,8 @@ class MapelImport implements ToCollection, WithHeadingRow
                 continue;
             }
 
+            $nama = ucwords(strtolower(trim($nama)));
+
             // Cek duplikasi
             if (MataPelajaran::where('nama_mapel', $nama)->exists()) {
                 $this->failures[] = "$nama: Mata pelajaran sudah ada.";

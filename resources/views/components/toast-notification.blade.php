@@ -10,6 +10,8 @@
                 this.notify('{{ session('success') }}', 'success');
             @elseif(session('error'))
                 this.notify('{{ session('error') }}', 'error');
+            @elseif(session('warning'))
+                this.notify('{{ session('warning') }}', 'warning');
             @endif
         },
 
@@ -54,11 +56,17 @@
                     <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                 </div>
             </template>
+            <!-- Warning Icon -->
+            <template x-if="type === 'warning'">
+                <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                </div>
+            </template>
         </div>
         
         <!-- Content -->
         <div class="flex-1 min-w-0">
-            <h3 class="text-sm font-bold text-slate-800" x-text="type === 'success' ? 'Berhasil!' : 'Terjadi Kesalahan'"></h3>
+            <h3 class="text-sm font-bold text-slate-800" x-text="type === 'success' ? 'Berhasil!' : (type === 'warning' ? 'Perhatian' : 'Terjadi Kesalahan')"></h3>
             <p class="text-sm text-slate-500 mt-0.5 leading-relaxed" x-text="message"></p>
         </div>
         
@@ -73,7 +81,7 @@
     <!-- Progress Bar (Optional Visual Touch) -->
     <div class="h-1 w-full bg-slate-100">
         <div class="h-full transition-all duration-[4000ms] ease-linear"
-             :class="type === 'success' ? 'bg-emerald-500' : 'bg-red-500'"
+             :class="type === 'success' ? 'bg-emerald-500' : (type === 'warning' ? 'bg-yellow-500' : 'bg-red-500')"
              :style="show ? 'width: 0%' : 'width: 100%'"
              x-effect="if(show) { $el.style.transition = 'none'; $el.style.width = '100%'; setTimeout(() => { $el.style.transition = 'width 4000ms linear'; $el.style.width = '0%'; }, 50); }">
         </div>

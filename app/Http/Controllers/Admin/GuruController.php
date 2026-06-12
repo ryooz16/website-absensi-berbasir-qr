@@ -24,7 +24,7 @@ class GuruController extends Controller
             });
         }
 
-        $guru = $query->latest()->get();
+        $guru = $query->orderBy('name', 'asc')->get();
         return view('admin.guru.index', compact('guru'));
     }
 
@@ -39,7 +39,7 @@ class GuruController extends Controller
         ]);
 
         User::create([
-            'name' => $request->name,
+            'name' => ucwords(strtolower(trim($request->name))),
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'guru'
@@ -58,7 +58,7 @@ class GuruController extends Controller
         ]);
 
         $data = [
-            'name' => $request->name,
+            'name' => ucwords(strtolower(trim($request->name))),
             'email' => $request->email,
         ];
 

@@ -39,6 +39,8 @@ Route::middleware(['auth', 'admin'])
         // DASHBOARD
         Route::get('/dashboard', [DashboardController::class, 'index'])
             ->name('dashboard');
+        Route::get('/dashboard/chart-kehadiran', [DashboardController::class, 'getChartData'])
+            ->name('dashboard.chart');
 
         // SISWA CRUD (FULL)
         Route::get('/siswa', [SiswaController::class, 'index'])
@@ -179,6 +181,9 @@ Route::middleware(['auth', 'admin'])
 
         Route::get('/qr-presensi/full', [QrAbsensiController::class, 'fullView'])
             ->name('qr-absensi.full');
+
+        Route::get('/qr-presensi/stats', [QrAbsensiController::class, 'getStats'])
+            ->name('qr-absensi.stats');
 
     });
 

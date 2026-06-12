@@ -31,7 +31,7 @@
         <div class="flex-1 flex flex-col gap-8">
             <div>
                 <div class="text-[7rem] font-black leading-none tracking-[-0.05em] bg-gradient-to-b from-white to-slate-400 bg-clip-text text-transparent font-mono" id="clock">00:00:00</div>
-                <div class="text-2xl text-slate-400 font-bold uppercase tracking-widest mt-4">{{ $today->translatedFormat('l, d F Y') }}</div>
+                <div class="text-2xl text-slate-400 font-bold uppercase tracking-widest mt-4">{{ $today->timezone('Asia/Jakarta')->locale('id')->translatedFormat('l, d F Y') }}</div>
             </div>
             
             <div class="flex">
@@ -92,7 +92,7 @@
     <script>
         function updateClock() {
             const now = new Date();
-            const time = now.toLocaleTimeString('id-ID', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            const time = now.toLocaleTimeString('id-ID', { timeZone: 'Asia/Jakarta', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
             document.getElementById('clock').innerText = time;
         }
         setInterval(updateClock, 1000);
@@ -133,17 +133,17 @@
 
             async function updateStats() {
                 try {
-                    const res = await fetch(window.location.href);
-                    const text = await res.text();
-                    const parser = new DOMParser();
-                    const doc = parser.parseFromString(text, 'text/html');
-                    statPresent.innerText = doc.getElementById('stat-present').innerText;
+                    const res = await fetch('{{ route("admin.qr-absensi.stats") }}');
+                    const data = await res.json();
+                    if (data.sudahAbsensi !== undefined) {
+                        statPresent.innerText = data.sudahAbsensi;
+                    }
                 } catch (e) {}
             }
 
             setInterval(updateTimer, 1000);
             updateTimer();
-            setInterval(updateStats, 30000);
+            setInterval(updateStats, 3000);
         @else
             setTimeout(() => { window.location.reload(); }, 60000);
         @endif

@@ -20,7 +20,7 @@ class MataPelajaranController extends Controller
             $query->where('nama_mapel', 'like', '%' . $request->search . '%');
         }
 
-        $mapel = $query->latest()->get();
+        $mapel = $query->orderBy('nama_mapel', 'asc')->get();
         return view('admin.mapel.index', compact('mapel'));
     }
 
@@ -32,7 +32,9 @@ class MataPelajaranController extends Controller
             'nama_mapel' => 'required|unique:mata_pelajaran',
         ]);
 
-        MataPelajaran::create($request->all());
+        MataPelajaran::create([
+            'nama_mapel' => ucwords(strtolower(trim($request->nama_mapel)))
+        ]);
 
         return redirect()->route('admin.mapel.index')
             ->with('success', 'Mata pelajaran berhasil ditambahkan');
@@ -46,7 +48,9 @@ class MataPelajaranController extends Controller
             'nama_mapel' => 'required|unique:mata_pelajaran,nama_mapel,' . $mapel->id,
         ]);
 
-        $mapel->update($request->all());
+        $mapel->update([
+            'nama_mapel' => ucwords(strtolower(trim($request->nama_mapel)))
+        ]);
 
         return redirect()->route('admin.mapel.index')
             ->with('success', 'Mata pelajaran berhasil diupdate');
