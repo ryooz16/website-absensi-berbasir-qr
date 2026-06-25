@@ -1,19 +1,19 @@
 <x-app-layout>
     <x-slot name="header">
-        Laporan Absensi Guru
+        Laporan Absensi Siswa
     </x-slot>
 
     <div class="p-4 md:p-6 lg:p-8" x-data>
         <!-- HEADER -->
         <div class="mb-8">
-            <h1 class="text-2xl font-bold text-slate-800">Laporan Absensi Guru</h1>
-            <p class="text-sm text-slate-500 mt-1">Pantau statistik kehadiran dan rekapitulasi absensi guru secara detail.</p>
+            <h1 class="text-2xl font-bold text-slate-800">Laporan Absensi Siswa</h1>
+            <p class="text-sm text-slate-500 mt-1">Pantau statistik kehadiran dan rekapitulasi absensi siswa secara detail.</p>
         </div>
 
         <!-- FILTER SECTION -->
         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200/60 mb-8" x-data="{ periode: '{{ $periodeAktif ?? 'hari_ini' }}' }">
-            <form action="{{ route('admin.laporan.guru.index') }}" method="GET" class="space-y-4">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <form action="{{ route('kepsek.laporan.siswa.index') }}" method="GET" class="space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
                     <!-- Periode -->
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Periode</label>
@@ -39,17 +39,40 @@
                         <input type="date" name="tanggal_akhir" value="{{ $tanggalAkhir }}" :required="periode === 'kustom'"
                                class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
                     </div>
+
+                    <!-- Kelas -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Kelas</label>
+                        <select name="kelas_id" class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                            <option value="">Semua Kelas</option>
+                            @foreach($semuaKelas as $k)
+                                <option value="{{ $k->id }}" {{ $kelasId == $k->id ? 'selected' : '' }}>{{ $k->nama_kelas }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Mapel -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Mata Pelajaran</label>
+                        <select name="mata_pelajaran_id" class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                            <option value="">Semua Mata Pelajaran</option>
+                            @foreach($semuaMapel as $m)
+                                <option value="{{ $m->id }}" {{ $mapelId == $m->id ? 'selected' : '' }}>{{ $m->nama_mapel }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <!-- Search -->
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cari Nama</label>
-                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama guru..." 
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama siswa..." 
                                class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
                     </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row justify-end gap-3 pt-4 border-t border-slate-100 mt-4">
-                    @if(request()->hasAny(['periode', 'search']))
-                    <a href="{{ route('admin.laporan.guru.index') }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition text-center">
+                    @if(request()->hasAny(['periode', 'search', 'kelas_id', 'mata_pelajaran_id']))
+                    <a href="{{ route('kepsek.laporan.siswa.index') }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition text-center">
                         Reset
                     </a>
                     @endif
@@ -58,7 +81,7 @@
                         Terapkan Filter
                     </button>
                     <!-- Tombol Export menyesuaikan parameter -->
-                    <a href="{{ route('admin.laporan.guru.export', request()->all()) }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition flex items-center justify-center gap-2">
+                    <a href="{{ route('kepsek.laporan.siswa.export', request()->all()) }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         Export Excel
                     </a>
@@ -67,65 +90,55 @@
         </div>
 
         <!-- KPI CARDS -->
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-            <div class="bg-white rounded-2xl p-4 md:p-5 border border-slate-200/60 shadow-sm flex items-center gap-3">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/60 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 </div>
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase">Hadir</p>
+                    <p class="text-xs font-bold text-slate-500 uppercase">Hadir</p>
                     <div class="flex items-baseline gap-2">
-                        <h3 class="text-xl md:text-2xl font-black text-slate-800">{{ $kpiStats['hadir'] }}</h3>
-                        <span class="text-[10px] md:text-xs font-bold text-emerald-500">({{ $kpiStats['persentase_hadir'] }}%)</span>
+                        <h3 class="text-2xl font-black text-slate-800">{{ $kpiStats['hadir'] }}</h3>
+                        <span class="text-xs font-bold text-emerald-500">({{ $kpiStats['persentase_hadir'] }}%)</span>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 md:p-5 border border-slate-200/60 shadow-sm flex items-center gap-3">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/60 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase">Terlambat</p>
-                    <h3 class="text-xl md:text-2xl font-black text-slate-800">{{ $kpiStats['terlambat'] }}</h3>
+                    <p class="text-xs font-bold text-slate-500 uppercase">Sakit</p>
+                    <h3 class="text-2xl font-black text-slate-800">{{ $kpiStats['sakit'] }}</h3>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 md:p-5 border border-slate-200/60 shadow-sm flex items-center gap-3">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-orange-100 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <div class="bg-white rounded-2xl p-5 border border-slate-200/60 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                 </div>
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase">Sakit</p>
-                    <h3 class="text-xl md:text-2xl font-black text-slate-800">{{ $kpiStats['sakit'] }}</h3>
+                    <p class="text-xs font-bold text-slate-500 uppercase">Izin</p>
+                    <h3 class="text-2xl font-black text-slate-800">{{ $kpiStats['izin'] }}</h3>
                 </div>
             </div>
 
-            <div class="bg-white rounded-2xl p-4 md:p-5 border border-slate-200/60 shadow-sm flex items-center gap-3">
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div>
-                    <p class="text-[10px] md:text-xs font-bold text-slate-500 uppercase">Izin</p>
-                    <h3 class="text-xl md:text-2xl font-black text-slate-800">{{ $kpiStats['izin'] }}</h3>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-2xl p-4 md:p-5 border border-red-200 shadow-sm flex items-center gap-3 relative overflow-hidden">
+            <div class="bg-white rounded-2xl p-5 border border-red-200 shadow-sm flex items-center gap-4 relative overflow-hidden">
                 <div class="absolute inset-y-0 left-0 w-1 bg-red-500"></div>
-                <div class="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 ml-1 md:ml-2">
-                    <svg class="w-5 h-5 md:w-6 md:h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                <div class="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 ml-2">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </div>
                 <div>
-                    <p class="text-[10px] md:text-xs font-bold text-red-500 uppercase">Alpha</p>
-                    <h3 class="text-xl md:text-2xl font-black text-slate-800">{{ $kpiStats['alpha'] }}</h3>
+                    <p class="text-xs font-bold text-red-500 uppercase">Alpha</p>
+                    <h3 class="text-2xl font-black text-slate-800">{{ $kpiStats['alpha'] }}</h3>
                 </div>
             </div>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden"
              x-data="{
-                data: {{ json_encode($rekapGuru) }},
+                data: {{ json_encode($rekapSiswa) }},
                 perPage: 10,
                 currentPage: 1,
                 get totalPages() {
@@ -157,7 +170,7 @@
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
-                    <span class="text-sm font-medium text-slate-500">guru</span>
+                    <span class="text-sm font-medium text-slate-500">siswa</span>
                 </div>
             </div>
 
@@ -165,9 +178,9 @@
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50/80 border-b border-slate-100">
-                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Guru</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Nama Siswa</th>
+                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Kelas</th>
                             <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Hadir</th>
-                            <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Terlambat</th>
                             <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Sakit</th>
                             <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Izin</th>
                             <th class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider text-center">Alpha</th>
@@ -182,42 +195,32 @@
                             </tr>
                         </template>
                         
-                        <template x-for="(guru, index) in paginatedData" :key="index">
+                        <template x-for="(siswa, index) in paginatedData" :key="index">
                             <tr class="hover:bg-slate-50/50 transition">
-                                <td class="px-6 py-4 font-semibold text-slate-800">
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-8 h-8 bg-gradient-to-br from-indigo-100 to-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 text-[10px] font-bold" x-text="guru.nama.substring(0,2).toUpperCase()"></div>
-                                        <span x-text="guru.nama"></span>
-                                    </div>
-                                </td>
+                                <td class="px-6 py-4 font-semibold text-slate-800" x-text="siswa.nama"></td>
+                                <td class="px-6 py-4 text-center text-sm font-medium text-slate-600" x-text="siswa.kelas"></td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                                          :class="guru.hadir > 0 ? 'bg-emerald-100 text-emerald-700' : 'text-slate-300'"
-                                          x-text="guru.hadir">
+                                          :class="siswa.hadir > 0 ? 'bg-emerald-100 text-emerald-700' : 'text-slate-300'"
+                                          x-text="siswa.hadir">
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                                          :class="guru.terlambat > 0 ? 'bg-amber-100 text-amber-700' : 'text-slate-300'"
-                                          x-text="guru.terlambat">
+                                          :class="siswa.sakit > 0 ? 'bg-amber-100 text-amber-700' : 'text-slate-300'"
+                                          x-text="siswa.sakit">
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                                          :class="guru.sakit > 0 ? 'bg-orange-100 text-orange-700' : 'text-slate-300'"
-                                          x-text="guru.sakit">
+                                          :class="siswa.izin > 0 ? 'bg-blue-100 text-blue-700' : 'text-slate-300'"
+                                          x-text="siswa.izin">
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                                          :class="guru.izin > 0 ? 'bg-blue-100 text-blue-700' : 'text-slate-300'"
-                                          x-text="guru.izin">
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <span class="inline-flex items-center justify-center w-8 h-8 rounded-full font-bold"
-                                          :class="guru.alpha > 0 ? 'bg-red-100 text-red-700' : 'text-slate-300'"
-                                          x-text="guru.alpha">
+                                          :class="siswa.alpha > 0 ? 'bg-red-100 text-red-700' : 'text-slate-300'"
+                                          x-text="siswa.alpha">
                                     </span>
                                 </td>
                             </tr>
@@ -231,7 +234,7 @@
                 <span class="text-sm text-slate-500">
                     Menampilkan <span class="font-bold text-slate-700" x-text="Math.min((currentPage - 1) * perPage + 1, data.length)"></span> 
                     sampai <span class="font-bold text-slate-700" x-text="Math.min(currentPage * perPage, data.length)"></span> 
-                    dari <span class="font-bold text-slate-700" x-text="data.length"></span> guru
+                    dari <span class="font-bold text-slate-700" x-text="data.length"></span> siswa
                 </span>
                 <div class="flex gap-2">
                     <button @click="prevPage" :disabled="currentPage === 1" 

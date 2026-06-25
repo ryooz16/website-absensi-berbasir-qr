@@ -12,7 +12,7 @@
 
         <!-- FILTER SECTION -->
         <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200/60 mb-8" x-data="{ periode: '{{ $periodeAktif ?? 'hari_ini' }}' }">
-            <form action="{{ route('admin.laporan.guru.index') }}" method="GET" class="space-y-4">
+            <form action="{{ route('kepsek.laporan.guru.index') }}" method="GET" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <!-- Periode -->
                     <div>
@@ -49,7 +49,7 @@
 
                 <div class="flex flex-col md:flex-row justify-end gap-3 pt-4 border-t border-slate-100 mt-4">
                     @if(request()->hasAny(['periode', 'search']))
-                    <a href="{{ route('admin.laporan.guru.index') }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition text-center">
+                    <a href="{{ route('kepsek.laporan.guru.index') }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition text-center">
                         Reset
                     </a>
                     @endif
@@ -58,7 +58,7 @@
                         Terapkan Filter
                     </button>
                     <!-- Tombol Export menyesuaikan parameter -->
-                    <a href="{{ route('admin.laporan.guru.export', request()->all()) }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition flex items-center justify-center gap-2">
+                    <a href="{{ route('kepsek.laporan.guru.export', request()->all()) }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-100 hover:bg-emerald-200 transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         Export Excel
                     </a>

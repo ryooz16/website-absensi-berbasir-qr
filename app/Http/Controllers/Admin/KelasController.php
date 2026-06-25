@@ -185,8 +185,14 @@ class KelasController extends Controller
         $request->validate(['file' => 'required|mimes:xlsx,xls,csv']);
 
         try {
-            Excel::import(new SiswaKelasImport($kela->id), $request->file('file'));
-            return back()->with('success', 'Data siswa berhasil diimport ke kelas ' . $kela->nama_kelas);
+            $import = new SiswaKelasImport($kela->id);
+            Excel::import($import, $request->file('file'));
+            
+            if ($import->importedCount === 0) {
+                return back()->with('error', 'Gagal import: Format file tidak sesuai atau tidak ada data siswa (pastikan terdapat kolom "nis" dan "nama").');
+            }
+            
+            return back()->with('success', $import->importedCount . ' data siswa berhasil diimport ke kelas ' . $kela->nama_kelas);
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal import: ' . $e->getMessage());
         }
@@ -209,17 +215,28 @@ class KelasController extends Controller
         foreach ($imports as $kelasId => $file) {
             try {
                 $kelas = Kelas::findOrFail($kelasId);
-                Excel::import(new SiswaKelasImport($kelas->id), $file);
-                $successCount++;
+                $import = new SiswaKelasImport($kelas->id);
+                Excel::import($import, $file);
+                
+                if ($import->importedCount > 0) {
+                    $successCount++;
+                } else {
+                    $errorCount++;
+                }
             } catch (\Exception $e) {
                 $errorCount++;
             }
         }
 
         if ($errorCount > 0) {
+            if ($successCount === 0) {
+                return redirect()->route('admin.kelas.index')
+                                 ->with('error', 'Gagal! Semua file (' . $errorCount . ' kelas) gagal diimpor karena format file tidak sesuai atau kosong.');
+            }
+            
             return redirect()->route('admin.kelas.index')
                              ->with('success', $successCount . ' kelas berhasil diimpor.')
-                             ->with('error', $errorCount . ' kelas gagal diimpor. Periksa format file Anda.');
+                             ->with('error', $errorCount . ' kelas gagal diimpor karena format file tidak sesuai atau kosong.');
         }
 
         return redirect()->route('admin.kelas.index')

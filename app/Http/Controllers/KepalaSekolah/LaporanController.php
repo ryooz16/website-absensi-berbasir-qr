@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\KepalaSekolah;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -239,7 +239,7 @@ class LaporanController extends Controller
         $semuaMapel = MataPelajaran::orderBy('nama_mapel')->get();
         $semuaTahunAjaran = TahunAjaran::orderByDesc('nama_tahun')->get();
 
-        return view('admin.laporan.siswa', compact(
+        return view('kepsek.laporan.siswa', compact(
             'tanggalAwal', 'tanggalAkhir', 'periodeAktif', 'search', 'kelasId', 'mapelId',
             'kpiStats', 'rekapSiswa',
             'semuaKelas', 'semuaMapel', 'semuaTahunAjaran', 'tahunAktif'
@@ -307,7 +307,7 @@ class LaporanController extends Controller
         // Data untuk Filter Dropdown
         $semuaTahunAjaran = TahunAjaran::orderByDesc('nama_tahun')->get();
 
-        return view('admin.laporan.guru', compact(
+        return view('kepsek.laporan.guru', compact(
             'tanggalAwal', 'tanggalAkhir', 'periodeAktif', 'search',
             'kpiStats', 'rekapGuru',
             'semuaTahunAjaran', 'tahunAktif'

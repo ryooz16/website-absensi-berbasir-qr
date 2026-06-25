@@ -11,32 +11,32 @@
         </div>
 
         <!-- FILTER SECTION -->
-        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200/60 mb-8">
+        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-sm border border-slate-200/60 mb-8" x-data="{ periode: '{{ $periodeAktif ?? 'hari_ini' }}' }">
             <form action="{{ route('admin.laporan.siswa.index') }}" method="GET" class="space-y-4">
                 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <!-- Tahun Ajaran -->
+                    <!-- Periode -->
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tahun Ajaran</label>
-                        <select name="tahun_ajaran_id" class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
-                            @foreach($semuaTahunAjaran as $ta)
-                                <option value="{{ $ta->id }}" {{ $tahunAjaranId == $ta->id ? 'selected' : '' }}>
-                                    {{ $ta->nama_tahun }} {{ $ta->status == 'aktif' ? '(Aktif)' : '' }}
-                                </option>
-                            @endforeach
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Periode</label>
+                        <select name="periode" x-model="periode" class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                            <option value="hari_ini">Hari Ini</option>
+                            <option value="minggu_ini">Minggu Ini</option>
+                            <option value="bulan_ini">Bulan Ini</option>
+                            <option value="tahun_ajaran">Tahun Ajaran Aktif</option>
+                            <option value="kustom">Kustom Tanggal</option>
                         </select>
                     </div>
 
                     <!-- Tanggal Awal -->
-                    <div>
+                    <div x-show="periode === 'kustom'" x-cloak>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tanggal Awal</label>
-                        <input type="date" name="tanggal_awal" value="{{ $tanggalAwal }}" 
+                        <input type="date" name="tanggal_awal" value="{{ $tanggalAwal }}" :required="periode === 'kustom'"
                                class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
                     </div>
                     
                     <!-- Tanggal Akhir -->
-                    <div>
+                    <div x-show="periode === 'kustom'" x-cloak>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Tanggal Akhir</label>
-                        <input type="date" name="tanggal_akhir" value="{{ $tanggalAkhir }}" 
+                        <input type="date" name="tanggal_akhir" value="{{ $tanggalAkhir }}" :required="periode === 'kustom'"
                                class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
                     </div>
 
@@ -61,12 +61,21 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <!-- Search -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">Cari Nama</label>
+                        <input type="text" name="search" value="{{ request('search') }}" placeholder="Cari nama siswa..." 
+                               class="w-full rounded-xl border-slate-200 focus:ring-indigo-500 focus:border-indigo-500 text-sm">
+                    </div>
                 </div>
 
                 <div class="flex flex-col md:flex-row justify-end gap-3 pt-4 border-t border-slate-100 mt-4">
+                    @if(request()->hasAny(['periode', 'search', 'kelas_id', 'mata_pelajaran_id']))
                     <a href="{{ route('admin.laporan.siswa.index') }}" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 transition text-center">
                         Reset
                     </a>
+                    @endif
                     <button type="submit" class="w-full md:w-auto px-5 py-2.5 rounded-xl text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                         Terapkan Filter

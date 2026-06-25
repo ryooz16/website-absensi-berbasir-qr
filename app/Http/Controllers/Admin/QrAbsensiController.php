@@ -203,12 +203,13 @@ class QrAbsensiController extends Controller
         $valid = hash_equals($currentToken, $token);
         
         // Grace period hanya berlaku jika interval <= 3 menit
-        if ($interval <= 3) {
-            $prevToken = $this->generateToken($today, $interval, -1);
-            if (hash_equals($prevToken, $token)) {
-                $valid = true;
-            }
-        }
+        // DINONAKTIFKAN SEMENTARA:
+        // if ($interval <= 30) {
+        //     $prevToken = $this->generateToken($today, $interval, -1);
+        //     if (hash_equals($prevToken, $token)) {
+        //         $valid = true;
+        //     }
+        // }
 
         $user = auth()->user();
         $sudahAbsensi = false;
@@ -232,12 +233,13 @@ class QrAbsensiController extends Controller
         $isValid = hash_equals($currentToken, $token);
         
         // Grace period hanya berlaku jika interval <= 3 menit
-        if ($interval <= 3) {
-            $prevToken = $this->generateToken($today, $interval, -1);
-            if (hash_equals($prevToken, $token)) {
-                $isValid = true;
-            }
-        }
+        // DINONAKTIFKAN SEMENTARA:
+        // if ($interval <= 3) {
+        //     $prevToken = $this->generateToken($today, $interval, -1);
+        //     if (hash_equals($prevToken, $token)) {
+        //         $isValid = true;
+        //     }
+        // }
 
         if (!$isValid) {
             return back()->with('error', 'QR Code sudah kadaluarsa.');

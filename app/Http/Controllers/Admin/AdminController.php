@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::where('role', 'admin');
+        $query = User::whereIn('role', ['admin', 'kepala_sekolah']);
 
         if ($request->search) {
             $query->where(function($q) use ($request) {
@@ -32,16 +32,17 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'role' => 'required|in:admin,kepala_sekolah',
         ]);
 
         User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin',
+            'role' => $request->role,
         ]);
 
-        return redirect()->route('admin.admins.index')->with('success', 'Admin baru berhasil ditambahkan.');
+        return redirect()->route('admin.admins.index')->with('success', 'Akun baru berhasil ditambahkan.');
     }
 
     public function update(Request $request, User $manajemen_admin)
@@ -63,20 +64,25 @@ class AdminController extends Controller
 
         $manajemen_admin->update($data);
 
-        return redirect()->route('admin.admins.index')->with('success', 'Data admin berhasil diperbarui.');
+        return redirect()->route('admin.admins.index')->with('success', 'Data akun berhasil diperbarui.');
     }
 
     public function destroy(User $manajemen_admin)
     {
-        // Proteksi: Jangan biarkan admin terakhir dihapus
-        $adminCount = User::where('role', 'admin')->count();
-
-        if ($adminCount <= 1) {
-            return redirect()->route('admin.admins.index')->with('error', 'Gagal! Admin terakhir tidak boleh dihapus untuk mencegah sistem terkunci.');
+        if ($manajemen_admin->role === 'admin') {
+            $adminCount = User::where('role', 'admin')->count();
+            if ($adminCount <= 1) {
+                return redirect()->route('admin.admins.index')->with('error', 'Gagal! Admin terakhir tidak boleh dihapus untuk mencegah sistem terkunci.');
+            }
+        } elseif ($manajemen_admin->role === 'kepala_sekolah') {
+            $kepsekCount = User::where('role', 'kepala_sekolah')->count();
+            if ($kepsekCount <= 1) {
+                return redirect()->route('admin.admins.index')->with('error', 'Gagal! Kepala Sekolah terakhir tidak boleh dihapus.');
+            }
         }
 
         $manajemen_admin->delete();
 
-        return redirect()->route('admin.admins.index')->with('success', 'Admin berhasil dihapus.');
+        return redirect()->route('admin.admins.index')->with('success', 'Akun berhasil dihapus.');
     }
 }

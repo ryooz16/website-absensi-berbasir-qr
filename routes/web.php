@@ -21,10 +21,14 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    if (auth()->check() && auth()->user()->role === 'guru') {
-        return redirect()->route('guru.dashboard');
+    if (auth()->check()) {
+        if (auth()->user()->role === 'guru') {
+            return redirect()->route('guru.dashboard');
+        } elseif (auth()->user()->role === 'kepala_sekolah') {
+            return redirect()->route('kepsek.dashboard');
+        }
+        return redirect()->route('admin.dashboard');
     }
-    return redirect()->route('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Route::middleware(['auth', 'admin'])->prefix('admin')->group(function () {
@@ -220,6 +224,23 @@ Route::middleware(['auth', 'admin'])
         Route::post('/presensi/scan/{token}', [QrAbsensiController::class, 'scanProcess'])
             ->name('absensi.scan.process');
     });
+
+    // KEPALA SEKOLAH ROUTES
+    Route::middleware(['auth', 'kepala_sekolah'])
+        ->prefix('kepala-sekolah')
+        ->name('kepsek.')
+        ->group(function () {
+            Route::get('/dashboard', [\App\Http\Controllers\KepalaSekolah\DashboardController::class, 'index'])->name('dashboard');
+            Route::get('/dashboard/chart-kehadiran', [\App\Http\Controllers\KepalaSekolah\DashboardController::class, 'getChartData'])->name('dashboard.chart');
+            
+            // LAPORAN SISWA
+            Route::get('/laporan/siswa', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'siswaIndex'])->name('laporan.siswa.index');
+            Route::get('/laporan/siswa/export', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'siswaExport'])->name('laporan.siswa.export');
+
+            // LAPORAN GURU
+            Route::get('/laporan/guru', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'guruIndex'])->name('laporan.guru.index');
+            Route::get('/laporan/guru/export', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'guruExport'])->name('laporan.guru.export');
+        });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

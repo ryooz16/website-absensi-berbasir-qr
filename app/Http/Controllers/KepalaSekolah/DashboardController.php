@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\KepalaSekolah;
 
 use App\Http\Controllers\Controller;
 use App\Models\Siswa;
@@ -30,7 +30,7 @@ class DashboardController extends Controller
                                 ->distinct('siswa_kelas_id')
                                 ->count('siswa_kelas_id');
 
-        return view('admin.dashboard', compact(
+        return view('kepsek.dashboard', compact(
             'totalSiswa',
             'siswaAktif',
             'totalGuru',
@@ -41,6 +41,7 @@ class DashboardController extends Controller
             'siswaHadirHariIni'
         ));
     }
+    
     public function getChartData(Request $request)
     {
         $filter = $request->get('filter', 'today');
@@ -80,7 +81,7 @@ class DashboardController extends Controller
                 $percentage = $stat->total > 0 ? round(($stat->hadir / $stat->total) * 100, 1) : 0;
                 $data[] = $percentage;
             } else {
-                $data[] = 0; // if no data, show 0% as requested
+                $data[] = 0;
             }
         }
 

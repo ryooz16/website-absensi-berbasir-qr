@@ -14,6 +14,7 @@ use App\Models\TahunAjaran;
 class SiswaKelasImport implements OnEachRow, WithHeadingRow
 {
     protected $kelasId;
+    public $importedCount = 0;
 
     public function __construct($kelasId)
     {
@@ -63,6 +64,8 @@ class SiswaKelasImport implements OnEachRow, WithHeadingRow
                     'status' => 'aktif'
                 ]
             );
+
+            $this->importedCount++;
         });
     }
 }

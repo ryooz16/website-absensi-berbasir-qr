@@ -126,7 +126,7 @@
     <x-modal name="import-mapel" maxWidth="md">
         <div class="p-6">
             <h2 class="text-lg font-bold text-slate-800 mb-1">Impor Data Mapel</h2>
-            <p class="text-sm text-slate-400 mb-6">Pilih file Excel (.xlsx, .xls) atau CSV.</p>
+            <p class="text-sm text-slate-400 mb-6">Pilih file Excel (.xlsx)</p>
             <form action="{{ route('admin.mapel.import') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
                 @csrf
                 <div class="border-2 border-dashed border-slate-200 rounded-xl p-6 text-center hover:border-indigo-300 transition">
@@ -134,7 +134,7 @@
                     <input type="file" name="file" required class="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-indigo-50 file:text-indigo-600 hover:file:bg-indigo-100 cursor-pointer">
                 </div>
                 <div class="flex justify-between items-center pt-2">
-                    <a href="{{ route('admin.mapel.template') }}" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium">Download Template</a>
+                    <a href="{{ route('admin.mapel.template') }}" class="text-xs text-indigo-600 hover:text-indigo-700 font-medium">Download Template (Excel)</a>
                     <div class="flex gap-2">
                         <button type="button" x-on:click="$dispatch('close')" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-4 py-2.5 rounded-xl text-xs font-semibold transition">Batal</button>
                         <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl text-xs font-semibold transition shadow-sm">Upload</button>

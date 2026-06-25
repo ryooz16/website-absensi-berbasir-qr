@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Exports\MapelExport;
 use App\Imports\MapelImport;
 use Maatwebsite\Excel\Facades\Excel;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MataPelajaranController extends Controller
 {
@@ -89,16 +88,6 @@ class MataPelajaranController extends Controller
 
     public function downloadTemplate()
     {
-        $response = new StreamedResponse(function() {
-            $handle = fopen('php://output', 'w');
-            fputcsv($handle, ['nama_mapel']);
-            fputcsv($handle, ['Matematika']);
-            fclose($handle);
-        });
-
-        $response->headers->set('Content-Type', 'text/csv');
-        $response->headers->set('Content-Disposition', 'attachment; filename="template_mapel.csv"');
-
-        return $response;
+        return Excel::download(new \App\Exports\MapelTemplateExport, 'template_mapel.xlsx');
     }
 }

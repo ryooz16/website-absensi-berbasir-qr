@@ -172,7 +172,7 @@
     <x-modal name="import-guru" maxWidth="md">
         <div class="p-6">
             <h2 class="text-lg font-bold text-slate-800 mb-1">Impor Data Guru</h2>
-            <p class="text-sm text-slate-400 mb-1">Pilih file Excel (.xlsx, .xls) atau CSV.</p>
+            <p class="text-sm text-slate-400 mb-1">Pilih file Excel (.xlsx)</p>
             <p class="text-[10px] text-amber-600 font-bold uppercase tracking-wider mb-6 bg-amber-50 px-3 py-1 rounded-lg inline-block border border-amber-100">
                 Format: nama, email (Password otomatis: guru12345)
             </p>
