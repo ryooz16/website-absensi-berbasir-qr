@@ -11,7 +11,7 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        $query = User::whereIn('role', ['admin', 'kepala_sekolah']);
+        $query = User::whereIn('role', ['admin', 'kepala_sekolah', 'wakil_kepala_sekolah']);
 
         if ($request->search) {
             $query->where(function($q) use ($request) {
@@ -22,8 +22,10 @@ class AdminController extends Controller
 
         $admins = $query->latest()->get();
         $totalAdmin = $admins->count();
+        $hasKepsek = User::where('role', 'kepala_sekolah')->exists();
+        $hasWakepsek = User::where('role', 'wakil_kepala_sekolah')->exists();
 
-        return view('admin.admins.index', compact('admins', 'totalAdmin'));
+        return view('admin.admins.index', compact('admins', 'totalAdmin', 'hasKepsek', 'hasWakepsek'));
     }
 
     public function store(Request $request)
@@ -32,8 +34,22 @@ class AdminController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
-            'role' => 'required|in:admin,kepala_sekolah',
+            'role' => 'required|in:admin,kepala_sekolah,wakil_kepala_sekolah',
         ]);
+
+        if ($request->role === 'kepala_sekolah') {
+            $hasKepsek = User::where('role', 'kepala_sekolah')->exists();
+            if ($hasKepsek) {
+                return redirect()->back()->with('error', 'Gagal! Akun Kepala Sekolah hanya boleh ada 1.')->withInput();
+            }
+        }
+
+        if ($request->role === 'wakil_kepala_sekolah') {
+            $hasWakepsek = User::where('role', 'wakil_kepala_sekolah')->exists();
+            if ($hasWakepsek) {
+                return redirect()->back()->with('error', 'Gagal! Akun Wakil Kepala Sekolah hanya boleh ada 1.')->withInput();
+            }
+        }
 
         User::create([
             'name' => $request->name,
@@ -78,6 +94,11 @@ class AdminController extends Controller
             $kepsekCount = User::where('role', 'kepala_sekolah')->count();
             if ($kepsekCount <= 1) {
                 return redirect()->route('admin.admins.index')->with('error', 'Gagal! Kepala Sekolah terakhir tidak boleh dihapus.');
+            }
+        } elseif ($manajemen_admin->role === 'wakil_kepala_sekolah') {
+            $wakepsekCount = User::where('role', 'wakil_kepala_sekolah')->count();
+            if ($wakepsekCount <= 1) {
+                return redirect()->route('admin.admins.index')->with('error', 'Gagal! Wakil Kepala Sekolah terakhir tidak boleh dihapus.');
             }
         }
 

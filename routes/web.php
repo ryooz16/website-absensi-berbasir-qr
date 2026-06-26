@@ -26,6 +26,8 @@ Route::get('/dashboard', function () {
             return redirect()->route('guru.dashboard');
         } elseif (auth()->user()->role === 'kepala_sekolah') {
             return redirect()->route('kepsek.dashboard');
+        } elseif (auth()->user()->role === 'wakil_kepala_sekolah') {
+            return redirect()->route('wakepsek.dashboard');
         }
         return redirect()->route('admin.dashboard');
     }
@@ -240,6 +242,31 @@ Route::middleware(['auth', 'admin'])
             // LAPORAN GURU
             Route::get('/laporan/guru', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'guruIndex'])->name('laporan.guru.index');
             Route::get('/laporan/guru/export', [\App\Http\Controllers\KepalaSekolah\LaporanController::class, 'guruExport'])->name('laporan.guru.export');
+
+            // UBAH PASSWORD
+            Route::get('/password', [\App\Http\Controllers\KepalaSekolah\PasswordController::class, 'edit'])->name('password.edit');
+            Route::put('/password', [\App\Http\Controllers\KepalaSekolah\PasswordController::class, 'update'])->name('password.update');
+        });
+
+    // WAKIL KEPALA SEKOLAH ROUTES
+    Route::middleware(['auth', 'wakil_kepala_sekolah'])
+        ->prefix('wakil-kepala-sekolah')
+        ->name('wakepsek.')
+        ->group(function () {
+            Route::get('/dashboard', [\App\Http\Controllers\WakilKepalaSekolah\DashboardController::class, 'index'])->name('dashboard');
+            Route::get('/dashboard/chart-kehadiran', [\App\Http\Controllers\WakilKepalaSekolah\DashboardController::class, 'getChartData'])->name('dashboard.chart');
+            
+            // LAPORAN SISWA
+            Route::get('/laporan/siswa', [\App\Http\Controllers\WakilKepalaSekolah\LaporanController::class, 'siswaIndex'])->name('laporan.siswa.index');
+            Route::get('/laporan/siswa/export', [\App\Http\Controllers\WakilKepalaSekolah\LaporanController::class, 'siswaExport'])->name('laporan.siswa.export');
+
+            // LAPORAN GURU
+            Route::get('/laporan/guru', [\App\Http\Controllers\WakilKepalaSekolah\LaporanController::class, 'guruIndex'])->name('laporan.guru.index');
+            Route::get('/laporan/guru/export', [\App\Http\Controllers\WakilKepalaSekolah\LaporanController::class, 'guruExport'])->name('laporan.guru.export');
+
+            // UBAH PASSWORD
+            Route::get('/password', [\App\Http\Controllers\WakilKepalaSekolah\PasswordController::class, 'edit'])->name('password.edit');
+            Route::put('/password', [\App\Http\Controllers\WakilKepalaSekolah\PasswordController::class, 'update'])->name('password.update');
         });
 
 Route::middleware('auth')->group(function () {

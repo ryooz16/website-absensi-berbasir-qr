@@ -9,8 +9,8 @@
         <!-- HEADER -->
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
             <div>
-                <h1 class="text-2xl font-bold text-slate-800">Manajemen Admin & Kepsek</h1>
-                <p class="text-sm text-slate-400 mt-1">Kelola akun dengan akses Administrator dan Kepala Sekolah.</p>
+                <h1 class="text-2xl font-bold text-slate-800">Manajemen Admin, Kepsek & Wakepsek</h1>
+                <p class="text-sm text-slate-400 mt-1">Kelola akun dengan akses Administrator, Kepala Sekolah, dan Wakil Kepala Sekolah.</p>
             </div>
             <button x-on:click.prevent="$dispatch('open-modal', 'tambah-admin')" class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-xs font-semibold transition shadow-sm shadow-indigo-200">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/></svg>
@@ -43,7 +43,7 @@
                                     </div>
                                     <div>
                                         <span class="font-semibold text-sm text-slate-700">{{ $admin->name }}</span>
-                                        <span class="ml-2 text-[9px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-bold uppercase">{{ $admin->role === 'kepala_sekolah' ? 'Kepala Sekolah' : 'Admin' }}</span>
+                                        <span class="ml-2 text-[9px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-bold uppercase">{{ $admin->role === 'kepala_sekolah' ? 'Kepala Sekolah' : ($admin->role === 'wakil_kepala_sekolah' ? 'Wakil Kepala Sekolah' : 'Admin') }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -55,7 +55,8 @@
                                     </button>
                                     @php
                                         $canDelete = ($admin->role === 'admin' && $admins->where('role', 'admin')->count() > 1) || 
-                                                     ($admin->role === 'kepala_sekolah' && $admins->where('role', 'kepala_sekolah')->count() > 1);
+                                                     ($admin->role === 'kepala_sekolah' && $admins->where('role', 'kepala_sekolah')->count() > 1) ||
+                                                     ($admin->role === 'wakil_kepala_sekolah' && $admins->where('role', 'wakil_kepala_sekolah')->count() > 1);
                                     @endphp
                                     @if($canDelete)
                                         <form id="delete-admin-{{ $admin->id }}" action="{{ route('admin.admins.destroy', $admin->id) }}" method="POST">@csrf @method('DELETE')</form>
@@ -88,7 +89,7 @@
                             <div class="min-w-0">
                                 <div class="flex items-center gap-2">
                                     <h4 class="font-bold text-slate-800 text-sm truncate">{{ $admin->name }}</h4>
-                                    <span class="text-[9px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-bold uppercase shrink-0">{{ $admin->role === 'kepala_sekolah' ? 'Kepala Sekolah' : 'Admin' }}</span>
+                                    <span class="text-[9px] bg-indigo-50 text-indigo-600 px-1.5 py-0.5 rounded font-bold uppercase shrink-0">{{ $admin->role === 'kepala_sekolah' ? 'Kepala Sekolah' : ($admin->role === 'wakil_kepala_sekolah' ? 'Wakil Kepala Sekolah' : 'Admin') }}</span>
                                 </div>
                                 <p class="text-[11px] text-slate-400 font-mono truncate mt-0.5">{{ $admin->email }}</p>
                             </div>
@@ -101,7 +102,8 @@
                             </button>
                             @php
                                 $canDeleteMobile = ($admin->role === 'admin' && $admins->where('role', 'admin')->count() > 1) || 
-                                             ($admin->role === 'kepala_sekolah' && $admins->where('role', 'kepala_sekolah')->count() > 1);
+                                             ($admin->role === 'kepala_sekolah' && $admins->where('role', 'kepala_sekolah')->count() > 1) ||
+                                             ($admin->role === 'wakil_kepala_sekolah' && $admins->where('role', 'wakil_kepala_sekolah')->count() > 1);
                             @endphp
                             @if($canDeleteMobile)
                                 <button @click="$dispatch('confirm-dialog', { title: 'Hapus Akun?', message: 'Akses masuk {{ addslashes($admin->name) }} akan dicabut secara permanen.', confirmText: 'Ya, Hapus', type: 'danger', formId: 'delete-admin-{{ $admin->id }}' })"
@@ -128,7 +130,7 @@
     <x-modal name="tambah-admin" :show="old('_method') !== 'PUT' && $errors->any()" focusable>
         <div class="p-6">
             <h2 class="text-lg font-bold text-slate-800 mb-1">Tambah Akun Baru</h2>
-            <p class="text-sm text-slate-400 mb-6">Buat akun administrator atau kepala sekolah baru.</p>
+            <p class="text-sm text-slate-400 mb-6">Buat akun administrator, kepala sekolah, atau wakil kepala sekolah baru.</p>
             <form action="{{ route('admin.admins.store') }}" method="POST" class="space-y-4">
                 @csrf
                 <div>
@@ -140,7 +142,12 @@
                     <label class="block text-xs font-semibold text-slate-600 mb-1.5">Role</label>
                     <select name="role" class="w-full border border-slate-200 rounded-xl p-2.5 text-sm focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition @error('role') border-red-400 @enderror">
                         <option value="admin" {{ old('role') === 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="kepala_sekolah" {{ old('role') === 'kepala_sekolah' ? 'selected' : '' }}>Kepala Sekolah</option>
+                        @if(!$hasKepsek)
+                            <option value="kepala_sekolah" {{ old('role') === 'kepala_sekolah' ? 'selected' : '' }}>Kepala Sekolah</option>
+                        @endif
+                        @if(!$hasWakepsek)
+                            <option value="wakil_kepala_sekolah" {{ old('role') === 'wakil_kepala_sekolah' ? 'selected' : '' }}>Wakil Kepala Sekolah</option>
+                        @endif
                     </select>
                     @error('role') <p class="text-xs text-red-500 mt-1">{{ $message }}</p> @enderror
                 </div>
