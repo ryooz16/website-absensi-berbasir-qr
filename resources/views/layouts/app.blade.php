@@ -34,7 +34,7 @@
 
 <body class="bg-slate-50 font-sans antialiased">
 
-<div class="flex h-screen overflow-hidden bg-slate-50" x-data="{ sidebarOpen: false }">
+<div class="flex h-screen overflow-hidden bg-slate-50" x-data="{ sidebarOpen: false }" style="-webkit-transform: translateZ(0); transform: translateZ(0);">
 
     <!-- SIDEBAR -->
     @include('layouts.sidebar')
@@ -43,7 +43,7 @@
     <div class="flex-1 flex flex-col min-w-0 h-screen">
 
         <!-- TOP BAR -->
-        <header class="bg-white/80 backdrop-blur-xl border-b border-slate-200/60 z-30 shrink-0 sticky top-0">
+        <header class="bg-white md:bg-white/80 md:backdrop-blur-xl border-b border-slate-200 z-30 shrink-0 sticky top-0">
             <div class="flex justify-between items-center px-4 md:px-8 py-3 md:py-4">
 
                 <div class="flex items-center gap-3 min-w-0">
