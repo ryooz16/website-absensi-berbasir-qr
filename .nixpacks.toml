@@ -1,0 +1,4 @@
+[phases.release]
+cmds = [
+    'php artisan migrate --force'
+]
