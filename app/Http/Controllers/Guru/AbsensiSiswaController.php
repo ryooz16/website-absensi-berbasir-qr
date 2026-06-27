@@ -55,6 +55,12 @@ class AbsensiSiswaController extends Controller
 
         $tahunAktif = TahunAjaran::where('status', 'aktif')->first();
 
+        // Check if data already exists for this combination
+        $existingCount = AbsensiSiswa::where('kelas_id', $request->kelas_id)
+            ->where('mata_pelajaran_id', $request->mata_pelajaran_id)
+            ->where('tanggal', $request->tanggal)
+            ->count();
+
         foreach ($request->status as $siswa_kelas_id => $status) {
             AbsensiSiswa::updateOrCreate(
                 [
@@ -71,6 +77,10 @@ class AbsensiSiswaController extends Controller
             );
         }
 
-        return redirect()->back()->with('success', 'Berhasil menyimpan absensi siswa.');
+        $message = $existingCount > 0
+            ? 'Berhasil mengupdate data absensi siswa.'
+            : 'Berhasil menyimpan absensi siswa.';
+
+        return redirect()->back()->with('success', $message);
     }
 }
