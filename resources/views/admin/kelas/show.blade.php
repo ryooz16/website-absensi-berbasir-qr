@@ -26,7 +26,7 @@
         <div class="lg:col-span-1 space-y-6">
 
             {{-- Form Assign Manual --}}
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
                     <svg class="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.5v15m7.5-7.5h-15"/></svg>
                     Masukkan Siswa
@@ -51,7 +51,7 @@
             </div>
 
             {{-- Form Import Excel --}}
-            <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                 <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2">
                     <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"/></svg>
                     Import via Excel
@@ -78,7 +78,7 @@
 
         {{-- KANAN: DAFTAR SISWA AKTIF --}}
         <div class="lg:col-span-2">
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col h-full">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full">
                 <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-white">
                     <h2 class="font-bold text-slate-800">Daftar Siswa Aktif</h2>
                     <span class="text-xs bg-indigo-50 text-indigo-600 px-3 py-1 rounded-lg font-semibold">

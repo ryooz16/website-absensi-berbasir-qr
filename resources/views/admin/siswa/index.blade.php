@@ -48,7 +48,7 @@
 
             <!-- STATS -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                <div class="bg-white p-5 rounded-2xl border border-slate-200/60 shadow-sm">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
                     <p class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Siswa</p>
                     <p class="text-2xl font-bold text-slate-800">{{ $totalSiswa }}</p>
                 </div>
@@ -63,7 +63,7 @@
             </div>
 
             <!-- FILTER & SEARCH -->
-            <form action="{{ route('admin.siswa.index') }}" method="GET" class="bg-white rounded-2xl border border-slate-200/60 shadow-sm mb-6">
+            <form action="{{ route('admin.siswa.index') }}" method="GET" class="bg-white rounded-2xl border border-slate-200 shadow-sm mb-6">
                 <div class="flex flex-wrap gap-3 p-3 items-end">
                     <div class="flex-1 min-w-[200px] relative">
                         <svg class="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"/></svg>
@@ -95,7 +95,7 @@
             <!-- NOTIFICATIONS -->
 
             <!-- DATA LIST -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 
                 <!-- Desktop Table -->
                 <div class="hidden md:block overflow-x-auto">
@@ -283,7 +283,7 @@
                 <div class="mt-6 space-y-4">
                     <!-- Ringkasan Statistik -->
                     <div class="grid grid-cols-2 gap-3">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200/60">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                             <span class="block text-[10px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Total Siswa Lulus</span>
                             <span class="text-xl font-bold text-slate-700">{{ $graduatedCount }}</span>
                         </div>

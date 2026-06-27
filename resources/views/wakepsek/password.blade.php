@@ -7,7 +7,7 @@
         </div>
 
 
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden p-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden p-6">
             <form method="post" action="{{ route('wakepsek.password.update') }}" class="space-y-6"
                   x-data="{
                       showPwd1: false, hasVal1: false,

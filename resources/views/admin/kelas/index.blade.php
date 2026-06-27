@@ -45,7 +45,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             @forelse($kelasAktif as $k)
-                <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5 hover:shadow-md transition group">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 hover:shadow-md transition group">
                     <div class="flex justify-between items-start mb-4">
                         <div class="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-lg font-bold">
                             {{ substr($k->nama_kelas, 0, 1) }}
@@ -77,7 +77,7 @@
                     </a>
                 </div>
             @empty
-                <div class="col-span-full bg-white p-12 text-center rounded-2xl border border-slate-200/60 shadow-sm">
+                <div class="col-span-full bg-white p-12 text-center rounded-2xl border border-slate-200 shadow-sm">
                     <svg class="w-12 h-12 mx-auto text-slate-200 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z"/></svg>
                     <p class="font-semibold text-slate-600">Belum ada kelas aktif.</p>
                     <p class="text-sm text-slate-400 mt-1">Gunakan tombol <span class="text-indigo-600 font-semibold">Pengaturan Kelas</span> untuk menambahkan.</p>
@@ -173,7 +173,7 @@
                             </button>
                         </div>
 
-                        <div class="border border-slate-200/60 rounded-2xl overflow-x-auto bg-white shadow-sm">
+                        <div class="border border-slate-200 rounded-2xl overflow-x-auto bg-white shadow-sm">
                             <table class="w-full text-sm text-left">
                                 <thead class="bg-slate-50 text-slate-500 text-[11px] uppercase font-bold tracking-wider border-b border-slate-100">
                                     <tr>
@@ -414,7 +414,7 @@
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                     Histori & Arsip Data
                 </h3>
-                <div class="overflow-x-auto border border-slate-200/60 rounded-2xl shadow-sm">
+                <div class="overflow-x-auto border border-slate-200 rounded-2xl shadow-sm">
                     <table class="w-full text-sm text-left">
                         <thead class="bg-slate-50 text-[11px] font-bold text-slate-500 uppercase tracking-wider border-b border-slate-100">
                             <tr>

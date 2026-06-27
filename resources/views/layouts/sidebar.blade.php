@@ -74,7 +74,7 @@
 
     <!-- SIDEBAR -->
     <aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-           class="fixed md:relative top-0 left-0 z-50 -translate-x-full md:translate-x-0 w-[260px] bg-white border-r border-slate-200/60 h-screen flex flex-col shrink-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none">
+           class="fixed md:relative top-0 left-0 z-50 -translate-x-full md:translate-x-0 w-[260px] bg-white border-r border-slate-200 h-screen flex flex-col shrink-0 transition-transform duration-300 ease-in-out shadow-2xl md:shadow-none">
 
         <!-- LOGO -->
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">

@@ -37,7 +37,7 @@
      x-transition:leave="transition ease-in duration-200"
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0 scale-95"
-     class="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-6 md:right-6 z-50 md:max-w-sm bg-white shadow-2xl rounded-2xl border border-slate-200/60 overflow-hidden"
+     class="fixed bottom-4 right-4 left-4 md:left-auto md:bottom-6 md:right-6 z-50 md:max-w-sm bg-white shadow-2xl rounded-2xl border border-slate-200 overflow-hidden"
      style="display: none;"
      x-cloak>
     

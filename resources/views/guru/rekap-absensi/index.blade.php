@@ -29,7 +29,7 @@
         </div>
 
         <!-- FILTER RANGE -->
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 mb-8">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 mb-8">
             <form action="{{ route('guru.rekap-absensi.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
                 <div class="flex-1 w-full">
                     <label class="block text-xs font-semibold text-slate-600 mb-1.5">Dari Tanggal</label>
@@ -69,7 +69,7 @@
         <!-- GRID REKAP -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             @forelse($rekap as $subject)
-                <div class="bg-white rounded-3xl border border-slate-200/60 shadow-sm overflow-hidden flex flex-col">
+                <div class="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden flex flex-col">
                     <!-- Subject Header -->
                     <div class="p-6 bg-slate-50/50 border-b border-slate-100">
                         <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100 mb-4">
@@ -141,7 +141,7 @@
                             <p class="text-sm text-slate-500 font-medium">Memuat data rekap...</p>
                         </div>
 
-                        <div x-show="!loading" class="bg-white md:rounded-2xl border-y md:border border-slate-200/60 overflow-hidden shadow-sm">
+                        <div x-show="!loading" class="bg-white md:rounded-2xl border-y md:border border-slate-200 overflow-hidden shadow-sm">
                             <div class="overflow-x-auto">
                                 <table class="w-full text-sm text-left">
                                     <thead>

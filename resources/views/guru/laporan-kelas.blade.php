@@ -6,7 +6,7 @@
             <p class="text-sm text-slate-400 mt-1">Rekapitulasi kehadiran siswa di kelas yang Anda pimpin.</p>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 mb-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 mb-6">
             <form action="{{ route('guru.laporan-kelas') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
                 <div class="flex-1 w-full">
                     <label class="block text-xs font-semibold text-slate-600 mb-1.5">Dari Tanggal</label>
@@ -33,7 +33,7 @@
         </div>
 
         <!-- DATA LIST -->
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             
             <!-- Desktop Table -->
             <div class="hidden md:block overflow-x-auto">

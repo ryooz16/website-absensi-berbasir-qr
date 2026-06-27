@@ -21,7 +21,7 @@
         <!-- NOTIFICATIONS -->
 
         <!-- TABLE -->
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             
             <!-- Desktop Table -->
             <div class="hidden md:block overflow-x-auto">

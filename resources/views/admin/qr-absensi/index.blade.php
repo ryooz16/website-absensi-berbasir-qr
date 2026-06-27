@@ -16,7 +16,7 @@
             <p class="text-sm text-slate-400 mt-1">Monitor kehadiran guru secara real-time.</p>
         </div>
         <div class="flex items-center gap-3">
-            <div class="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200/60 flex items-center gap-3 text-sm text-slate-600">
+            <div class="bg-white px-4 py-2.5 rounded-xl shadow-sm border border-slate-200 flex items-center gap-3 text-sm text-slate-600">
                 <span class="font-bold border-r border-slate-200 pr-3 font-mono"><span id="server-clock">--:--:--</span> WIB</span>
                 <span class="text-slate-400">{{ $today->locale('id')->translatedFormat('d F Y') }}</span>
             </div>
@@ -31,7 +31,7 @@
         <div class="lg:col-span-1 space-y-6">
 
             {{-- CARD: QR CODE --}}
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="bg-slate-800 p-4 text-white flex justify-between items-center rounded-t-2xl">
                     <div class="flex items-center gap-3">
                         <h2 class="font-bold text-sm">QR Absensi</h2>
@@ -80,7 +80,7 @@
             </div>
 
             {{-- CARD: MASTER SWITCH --}}
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
                 <h3 class="font-bold text-slate-700 text-sm mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9"/></svg>
                     Master Switch
@@ -102,7 +102,7 @@
             </div>
 
             {{-- CARD: PENGATURAN --}}
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
                 <h3 class="font-bold text-slate-700 text-sm mb-4 flex items-center gap-2">
                     <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                     Pengaturan Operasional
@@ -137,7 +137,7 @@
 
         {{-- KANAN: DAFTAR GURU --}}
         <div class="lg:col-span-2">
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-2 md:gap-0">
                     <h2 class="font-bold text-slate-700 text-sm">Daftar Guru Hari Ini</h2>
                     <div class="flex gap-2">
@@ -258,7 +258,7 @@
 
 {{-- MODAL KONFIRMASI --}}
 <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
-    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden border border-slate-200/60">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm mx-4 overflow-hidden border border-slate-200">
         <div id="modal-header" class="p-6 text-center">
             <div id="modal-icon" class="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-3 text-2xl"></div>
             <h3 class="text-lg font-bold text-slate-800">Konfirmasi Absensi</h3>

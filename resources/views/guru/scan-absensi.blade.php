@@ -7,7 +7,7 @@
         </div>
 
 
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-6 text-center">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 text-center">
             <div id="reader" class="mx-auto w-full max-w-sm rounded-xl overflow-hidden mb-4 border border-slate-200"></div>
             
             <p class="text-sm text-slate-500 font-medium" id="scan-status">Kamera sedang diinisiasi...</p>

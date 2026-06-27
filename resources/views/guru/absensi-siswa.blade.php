@@ -7,7 +7,7 @@
         </div>
 
 
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-6 mb-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-6 mb-6">
             <form action="{{ route('guru.absensi-siswa.index') }}" method="GET" class="flex flex-col md:flex-row gap-4 items-end">
                 <div class="flex-1 w-full">
                     <label class="block text-xs font-semibold text-slate-600 mb-1.5">Pilih Kelas</label>
@@ -38,7 +38,7 @@
         </div>
 
         @if($selectedKelas && $selectedMapel)
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
                 <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                     <div>
                         <h2 class="font-bold text-slate-800">Daftar Siswa - Kelas {{ $selectedKelas->nama_kelas }}</h2>
