@@ -133,6 +133,10 @@ class RekapAbsensiController extends Controller
             ];
         });
 
+        if ($rekapData->isEmpty()) {
+            return redirect()->back()->with('error', 'Tidak ada data absensi yang tersedia untuk diekspor pada periode ini.');
+        }
+
         $fileName = 'laporan-mengajar-' . str_replace(' ', '-', strtolower(auth()->user()->name)) . '.xlsx';
 
         return Excel::download(new RekapMengajarExport(
