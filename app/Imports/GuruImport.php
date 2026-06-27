@@ -15,6 +15,13 @@ class GuruImport implements ToCollection, WithHeadingRow
 
     public function collection(Collection $rows)
     {
+        if ($rows->isEmpty()) return;
+
+        $firstRow = $rows->first();
+        if (!isset($firstRow['nama']) && !isset($firstRow['name']) && !isset($firstRow['email'])) {
+            throw new \Exception("Format file tidak sesuai dengan template. Pastikan Anda menggunakan file template yang disediakan.");
+        }
+
         foreach ($rows as $row) {
             $name = $row['nama'] ?? $row['name'] ?? null;
             $email = $row['email'] ?? null;

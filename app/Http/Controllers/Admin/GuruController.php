@@ -94,7 +94,11 @@ class GuruController extends Controller
         ]);
 
         $import = new GuruImport;
-        Excel::import($import, $request->file('file'));
+        try {
+            Excel::import($import, $request->file('file'));
+        } catch (\Exception $e) {
+            return redirect()->route('admin.guru.index')->with('error', $e->getMessage());
+        }
 
         $message = "Berhasil: $import->successCount data diimpor.";
         if (count($import->failures) > 0) {

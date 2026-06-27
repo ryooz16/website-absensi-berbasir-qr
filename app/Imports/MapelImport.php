@@ -14,6 +14,13 @@ class MapelImport implements ToCollection, WithHeadingRow
 
     public function collection(Collection $rows)
     {
+        if ($rows->isEmpty()) return;
+
+        $firstRow = $rows->first();
+        if (!isset($firstRow['nama_mapel']) && !isset($firstRow['nama_mata_pelajaran'])) {
+            throw new \Exception("Format file tidak sesuai dengan template. Pastikan Anda menggunakan file template yang disediakan.");
+        }
+
         foreach ($rows as $row) {
             $nama = $row['nama_mapel'] ?? $row['nama_mata_pelajaran'] ?? null;
 
