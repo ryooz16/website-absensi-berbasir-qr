@@ -29,6 +29,9 @@
         .sidebar-link { transition: all 0.2s ease; }
         .sidebar-link:hover { transform: translateX(4px); }
         .sidebar-link.active { background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%); color: white; }
+        /* Fix for Chromium mobile rendering bugs */
+        html, body { overflow-x: hidden; }
+        main, .grid, .bg-white { -webkit-backface-visibility: hidden; backface-visibility: hidden; transform: translateZ(0); }
     </style>
 </head>
 

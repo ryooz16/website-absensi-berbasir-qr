@@ -10,7 +10,7 @@
         </div>
 
         <!-- STATUS HARI INI -->
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-5 md:p-6 mb-6">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 md:p-6 mb-6">
             <div class="flex items-center gap-4">
                 <div class="w-14 h-14 rounded-2xl flex items-center justify-center shadow-lg
                     @if($absensiHariIni)
@@ -60,7 +60,7 @@
         <!-- STATISTIK CARDS -->
         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4 mb-6">
             <!-- Hadir -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition">
                         <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
@@ -71,7 +71,7 @@
             </div>
 
             <!-- Terlambat -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition">
                         <svg class="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -82,7 +82,7 @@
             </div>
 
             <!-- Izin -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-sky-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition">
                         <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -93,7 +93,7 @@
             </div>
 
             <!-- Sakit -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-5 hover:shadow-md transition group">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-orange-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition">
                         <svg class="w-5 h-5 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
@@ -104,7 +104,7 @@
             </div>
 
             <!-- Alpha -->
-            <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm p-4 md:p-5 hover:shadow-md transition group col-span-2 sm:col-span-1">
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-4 md:p-5 hover:shadow-md transition group col-span-2 sm:col-span-1">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 bg-rose-50 rounded-xl flex items-center justify-center group-hover:scale-110 transition">
                         <svg class="w-5 h-5 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
@@ -116,7 +116,7 @@
         </div>
 
         <!-- FILTER + TABLE -->
-        <div class="bg-white rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
             <!-- Filter -->
             <div class="p-4 md:p-6 border-b border-slate-100">
                 <form action="{{ route('guru.riwayat-absensi') }}" method="GET" class="flex flex-col sm:flex-row gap-3 items-end">
