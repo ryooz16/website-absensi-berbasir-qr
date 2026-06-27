@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Absensi Guru - Scan QR</title>
     <link rel="icon" type="image/png" href="{{ asset('logo-tbg.png') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @keyframes pulse-soft {
             0%, 100% { opacity: 1; }

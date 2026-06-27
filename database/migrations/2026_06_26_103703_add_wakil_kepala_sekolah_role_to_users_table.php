@@ -9,7 +9,7 @@ return new class extends Migration
     /**
      */
     public function up(): void
-    * Run the migrations.
+    // Run the migrations.
     {
         \Illuminate\Support\Facades\DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin', 'guru', 'kepala_sekolah', 'wakil_kepala_sekolah') NOT NULL DEFAULT 'guru'");
     }

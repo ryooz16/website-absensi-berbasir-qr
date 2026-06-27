@@ -161,7 +161,7 @@
     </div>
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    @vite('resources/js/chart-init.js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('attendanceChart').getContext('2d');

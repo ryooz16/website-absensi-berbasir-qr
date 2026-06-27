@@ -19,7 +19,7 @@
     </div>
 
     <!-- html5-qrcode -->
-    <script src="https://unpkg.com/html5-qrcode"></script>
+    @vite('resources/js/qr-scanner.js')
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const html5QrCode = new Html5Qrcode("reader");
